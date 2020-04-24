@@ -21,7 +21,7 @@ class MyApp(QWidget):
 
         self.setLayout(vbox)
         self.setWindowTitle('Select Enter ')
-        self.resize(300, 300)
+        self.resize(300, 150)
         self.center()
         self.show()
 

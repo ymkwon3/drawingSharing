@@ -32,7 +32,7 @@ def threaded(client_socket, addr):
     client_socket.close()
 
 
-HOST = '192.168.1.100'
+HOST = '172.30.1.54'
 PORT = 9999
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
