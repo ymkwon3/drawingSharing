@@ -1,12 +1,11 @@
-import sys
-from appWindows import currentApp
+import sys, time
+from host_appWindows import currentApp
 from PyQt5.QtWidgets import QApplication, QDesktopWidget, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout
 from PyQt5.QtCore import Qt
-# from openProcess import openWindow
+from pywinauto.application import Application
 
-
-class MyApp(QWidget):
-    app_list = currentApp()
+class WindowSelect(QWidget):
+    app_dict = currentApp()
 
     def __init__(self):
         super().__init__()
@@ -21,7 +20,7 @@ class MyApp(QWidget):
         lbborder1.setAlignment(Qt.AlignCenter)
         vbox.addWidget(lbborder1)
 
-        for i in self.app_list:
+        for i in self.app_dict:
             lb = QLabel('{}' .format(i), self)
             lb.setAlignment(Qt.AlignCenter)
             vbox.addWidget(lb)
@@ -53,12 +52,14 @@ class MyApp(QWidget):
         self.move(qr.topLeft())
 
     def checkProcess(self):
-        # app = Application(backend="uia").connect(self.qle.text())
-        # openWindow(self.qle.text())
-        print(self.qle.text())
+        app = Application().connect(process=self.app_dict[self.qle.text()])
+        #잘못입력했을때의 예외처리 필요########################################################################################################
+        apptop = app.top_window().set_focus()
+        time.sleep(1)
+        apptop.CaptureAsImage().save("appimg.png")
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = MyApp()
+    ex = WindowSelect()
     sys.exit(app.exec_())

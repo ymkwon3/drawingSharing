@@ -1,8 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QDesktopWidget, QWidget, QLabel, QInputDialog, QPushButton, QVBoxLayout
+from PyQt5.QtWidgets import *
+from host_windowSelect import WindowSelect
 
-
-class MyApp(QWidget):
+class Enter(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -33,10 +33,12 @@ class MyApp(QWidget):
         self.move(qr.topLeft())
 
     def enterHost(self):
-        print(self.qle.text())
+        self.window = QMainWindow()
+        self.ex = WindowSelect()
+        self.close()
 
     def enterClient(self):
-        print(self.qle.text())
+        pass
 
     def showDialog(self):
         text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter your name:')
@@ -47,5 +49,5 @@ class MyApp(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = MyApp()
+    ex = Enter()
     sys.exit(app.exec_())
