@@ -27,4 +27,3 @@ def currentApp():
 
     print(app_dict)
     return app_dict
-currentApp()
