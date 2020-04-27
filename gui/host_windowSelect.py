@@ -4,13 +4,14 @@ from host_appWindows import currentApp
 from PyQt5.QtWidgets import QApplication, QDesktopWidget, QWidget, QLabel, QPushButton, QVBoxLayout
 from PyQt5.QtCore import Qt
 from pywinauto.application import Application
-from screen import Screen
+from host_main import HostMain
+from datafile import CaptureData
 
 class WindowSelect(QWidget):
     app_dict = currentApp()
     btnList = []
     btnCnt = 0
-    imgstr = ""
+    windowcapture = ""
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -60,12 +61,11 @@ class WindowSelect(QWidget):
         #잘못입력했을때의 예외처리 필요########################################################################################################
         apptop = app.top_window().set_focus()
         time.sleep(1)
-        apptop.capture_as_image().save("appimg.png")
+        CaptureData.capturedata = apptop.capture_as_image()
         apptop.minimize()
-        time.sleep(1)
 
-        self.ex = Screen()
-        self.close()
+        self.ex = HostMain()
+        self.hide()
 
 
 if __name__ == '__main__':

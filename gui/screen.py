@@ -10,18 +10,24 @@ class Screen(QWidget):
 
     def initUI(self):
         self.imgscreen = QLabel(self)
-        pixmap = QPixmap("appimg.png")
-        if pixmap.size().width() > pixmap.size().height():
-            pixmap = pixmap.scaledToWidth(1600)
+        if True:
+            pixmap = QPixmap("appimg.png")
+            if pixmap.size().width() > pixmap.size().height():
+                pixmap = pixmap.scaledToWidth(1600)
+            else:
+                pixmap = pixmap.scaledToHeight(900)
+            self.imgscreen.setPixmap(pixmap)
         else:
-            pixmap = pixmap.scaledToHeight(900)
-        self.imgscreen.setPixmap(pixmap)
+            self.imgscreen.setStyleSheet("background-color: green")
+            self.imgscreen.setText("ready")
+
         self.imgscreen.resize(1600, 900)
 
         lbox = QVBoxLayout()
-        lbox.addWidget(self.imgscreen, alignment=Qt.AlignCenter)
+        lbox.addWidget(self.imgscreen)#, laignment=Qt.AlignCenter)
 
         self.userlist = QLabel(self)
+        self.userlist.setText("hello")
         self.userlist.setStyleSheet("background-color: yellow")
         self.userlist.resize(500, 500)
 
@@ -32,8 +38,8 @@ class Screen(QWidget):
         mainlayout = QHBoxLayout()
         mainlayout.addLayout(lbox)
         mainlayout.addLayout(rbox)
-        mainlayout.setStretchFactor(lbox, 1)
-        mainlayout.setStretchFactor(rbox, 0)
+        mainlayout.setStretchFactor(lbox, 4)
+        mainlayout.setStretchFactor(rbox, 1)
 
         self.setLayout(mainlayout)
 

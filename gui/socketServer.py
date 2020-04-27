@@ -15,7 +15,7 @@ def threaded(client_socket, addr):
 
             # 데이터가 수신되면 클라이언트에 다시 전송합니다.(에코)
             data = client_socket.recv(1024)
-
+            print("data", type(data))
             if not data:
                 print('Disconnected by ' + addr[0], ':', addr[1])
                 break
@@ -32,7 +32,7 @@ def threaded(client_socket, addr):
     client_socket.close()
 
 
-HOST = '192.168.1.100'
+HOST = '172.30.1.54'
 PORT = 9999
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -41,7 +41,7 @@ server_socket.bind((HOST, PORT))
 server_socket.listen()
 
 print('server start')
-
+print(HOST)
 # 클라이언트가 접속하면 accept 함수에서 새로운 소켓을 리턴합니다.
 
 # 새로운 쓰레드에서 해당 소켓을 사용하여 통신을 하게 됩니다.

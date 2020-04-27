@@ -1,0 +1,2 @@
+class CaptureData:
+    capturedata = None
