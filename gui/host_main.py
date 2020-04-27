@@ -2,6 +2,7 @@ import socket
 from _thread import *
 
 
+
 # 쓰레드에서 실행되는 코드입니다.
 
 # 접속한 클라이언트마다 새로운 쓰레드가 생성되어 통신을 하게 됩니다.
@@ -32,7 +33,7 @@ def threaded(client_socket, addr):
     client_socket.close()
 
 
-HOST = '192.168.1.100'
+HOST = socket.gethostbyname(socket.getfqdn())
 PORT = 9999
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

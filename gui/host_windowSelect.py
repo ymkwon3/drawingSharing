@@ -1,14 +1,16 @@
 import sys, time
 from functools import partial
 from host_appWindows import currentApp
-from PyQt5.QtWidgets import QApplication, QDesktopWidget, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QDesktopWidget, QWidget, QLabel, QPushButton, QVBoxLayout
 from PyQt5.QtCore import Qt
 from pywinauto.application import Application
+from screen import Screen
 
 class WindowSelect(QWidget):
     app_dict = currentApp()
     btnList = []
     btnCnt = 0
+    imgstr = ""
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -26,9 +28,6 @@ class WindowSelect(QWidget):
         vbox.addWidget(lbborder1)
 
         for i in self.app_dict:
-            # lb = QLabel('{}' .format(i), self)
-            # lb.setAlignment(Qt.AlignCenter)
-            # self.btnList[self.btnCnt] = QPushButton(i, self)
             self.btnList.append(QPushButton(i, self))
             print(self.btnList[self.btnCnt].text())
             self.btnList[self.btnCnt].clicked.connect(partial(self.checkProcess, self.btnList[self.btnCnt].text()))
@@ -40,11 +39,6 @@ class WindowSelect(QWidget):
         lbborder1 = QLabel("=============================================")
         lbborder1.setAlignment(Qt.AlignCenter)
         vbox.addWidget(lbborder1)
-
-        # self.qle = QLineEdit(self)
-        # self.qle.editingFinished.connect(self.checkProcess)
-        # self.qle.setAlignment(Qt.AlignCenter)
-        # vbox.addWidget(self.qle)
 
         self.setLayout(vbox)
         self.setWindowTitle('Select window')
@@ -66,7 +60,12 @@ class WindowSelect(QWidget):
         #잘못입력했을때의 예외처리 필요########################################################################################################
         apptop = app.top_window().set_focus()
         time.sleep(1)
-        apptop.CaptureAsImage().save("appimg.png")
+        apptop.capture_as_image().save("appimg.png")
+        apptop.minimize()
+        time.sleep(1)
+
+        self.ex = Screen()
+        self.close()
 
 
 if __name__ == '__main__':

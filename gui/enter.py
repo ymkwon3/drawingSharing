@@ -19,8 +19,13 @@ class Enter(QWidget):
         vbox.addWidget(btn1)
         vbox.addWidget(btn2)
 
-        self.setLayout(vbox)
-        self.setWindowTitle('Select Enter ')
+        hbox = QHBoxLayout()
+        hbox.addStretch(1)
+        hbox.addLayout(vbox)
+        hbox.addStretch(1)
+
+        self.setLayout(hbox)
+        self.setWindowTitle('Select Enter')
         self.resize(300, 150)
         self.center()
         self.show()
@@ -33,18 +38,11 @@ class Enter(QWidget):
         self.move(qr.topLeft())
 
     def enterHost(self):
-        self.window = QMainWindow()
         self.ex = WindowSelect()
         self.close()
 
     def enterClient(self):
         pass
-
-    def showDialog(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter your name:')
-
-        if ok:
-            self.le.setText(str(text))
 
 
 if __name__ == '__main__':

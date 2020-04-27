@@ -14,7 +14,6 @@ def currentApp():
                 tmp = line.split(' ')
                 app_dict[tmp[1] + ".exe"] = int(tmp[0])
                 print(app_dict)
-            # app_list.append(line.split(' ')[1] + ".exe")
         line_num += 1
     f.close()
 
@@ -24,6 +23,15 @@ def currentApp():
         del app_dict['WindowsInternal.ComposableShell.Experiences.TextInput.InputApp.exe']
     if 'WinStore.App.exe' in app_dict:
         del app_dict['WinStore.App.exe']
+    if 'MicrosoftEdge.exe' in app_dict:
+        del app_dict['MicrosoftEdge.exe']
+    if 'MicrosoftEdgeCP.exe' in app_dict:        del app_dict['MicrosoftEdgeCP.exe']
+    if 'SystemSettings.exe' in app_dict:
+        del app_dict['SystemSettings.exe']
+    if 'Music.UI.exe' in app_dict:
+        del app_dict['Music.UI.exe']
+    if 'explorer.exe' in app_dict:
+        del app_dict['explorer.exe']
 
     print(app_dict)
     return app_dict
