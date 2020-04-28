@@ -1,6 +1,5 @@
-import sys
+import sys, os
 from PyQt5.QtWidgets import *
-from host_windowSelect import WindowSelect
 
 class Enter(QWidget):
     def __init__(self):
@@ -38,8 +37,8 @@ class Enter(QWidget):
         self.move(qr.topLeft())
 
     def enterHost(self):
-        self.ex = WindowSelect()
         self.close()
+        os.system("python host_main.py")
 
     def enterClient(self):
         pass

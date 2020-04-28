@@ -15,7 +15,6 @@ def threaded(client_socket, addr):
 
             # 데이터가 수신되면 클라이언트에 다시 전송합니다.(에코)
             data = client_socket.recv(1024)
-            print("data", type(data))
             if not data:
                 print('Disconnected by ' + addr[0], ':', addr[1])
                 break
