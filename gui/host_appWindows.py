@@ -25,7 +25,8 @@ def currentApp():
         del app_dict['WinStore.App.exe']
     if 'MicrosoftEdge.exe' in app_dict:
         del app_dict['MicrosoftEdge.exe']
-    if 'MicrosoftEdgeCP.exe' in app_dict:        del app_dict['MicrosoftEdgeCP.exe']
+    if 'MicrosoftEdgeCP.exe' in app_dict:
+        del app_dict['MicrosoftEdgeCP.exe']
     if 'SystemSettings.exe' in app_dict:
         del app_dict['SystemSettings.exe']
     if 'Music.UI.exe' in app_dict:

@@ -66,6 +66,7 @@ class HostMain(QWidget):
             return
         senddata = CaptureData.capturedata
         ####
+        print(senddata)
         CaptureData.capturedata.save("appimg.png")
         pixmap = QPixmap("appimg.png")
         if pixmap.size().width() > pixmap.size().height():
