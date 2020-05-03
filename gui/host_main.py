@@ -1,4 +1,4 @@
-import socket, sys, io
+import socket, sys, io, pickle
 from _thread import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -65,8 +65,10 @@ class HostMain(QWidget):
             self.sendmsg.clear()
             return
         senddata = CaptureData.capturedata
+        # senddata = {"file":CaptureData.capturedata, "test":'testdatamm'}
+        print("호스트113", "gi")
+
         ####
-        print(senddata)
         CaptureData.capturedata.save("appimg.png")
         pixmap = QPixmap("appimg.png")
         if pixmap.size().width() > pixmap.size().height():
@@ -75,7 +77,7 @@ class HostMain(QWidget):
             pixmap = pixmap.scaledToHeight(900)
         self.imgscreen.setPixmap(pixmap)
         ####
-        print(senddata)
+
         self.s.send(str(senddata))
 
     def updateClient(self):

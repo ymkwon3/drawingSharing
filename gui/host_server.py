@@ -1,6 +1,7 @@
 from threading import *
 from socket import *
 from PyQt5.QtCore import Qt, pyqtSignal, QObject
+import pickle
 
 class Signal(QObject):
     conn_signal = pyqtSignal()
@@ -12,6 +13,7 @@ class ServerSocket:
         self.bListen = False
         self.clients = []
         self.ip = []
+        self.ip.append(['172.30.1.54',9999])
         self.threads = []
 
         self.conn = Signal()
@@ -49,7 +51,7 @@ class ServerSocket:
 
     def listen(self, server):
         while self.bListen:
-            server.listen(5)
+            server.listen(10)
             try:
                 client, addr = server.accept()
             except Exception as e:
@@ -78,7 +80,7 @@ class ServerSocket:
                 if msg:
                     self.send(msg)
                     self.recv.recv_signal.emit(msg)
-                    print('[RECV]:', addr, msg)
+                    print('[RECV]:', addr[0], msg)
         self.removeClient(addr, client)
 
     def send(self, msg):

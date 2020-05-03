@@ -1,4 +1,4 @@
-import socket
+import socket, pickle
 
 
 HOST = '175.215.49.230'
@@ -17,14 +17,18 @@ client_socket.connect((HOST, PORT))
 # quit를 입력할 때 까지 반복합니다.
 while True:
 
-    message = input('Enter Message : ')
-    if message == 'quit':
-    	break
+    # message = input('Enter Message : ')
+    # if message == 'quit':
+    # 	break
 
-    client_socket.send(message.encode())
+    # client_socket.send(message.encode())
+    # data = client_socket.recv(1024)
+    # datadic = pickle.loads(data)
+    # print('Received from the server :', repr(datadic))
+
     data = client_socket.recv(1024)
 
-    print('Received from the server :',repr(data.decode()))
+    print('Received from the server :', repr(data.decode()))
 
 
 client_socket.close()

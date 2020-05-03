@@ -39,9 +39,9 @@ class WindowSelect(QWidget):
 
         vbox.addStretch()
 
-        lbborder1 = QLabel("=============================================")
-        lbborder1.setAlignment(Qt.AlignCenter)
-        vbox.addWidget(lbborder1)
+        lbborder2 = QLabel("=============================================")
+        lbborder2.setAlignment(Qt.AlignCenter)
+        vbox.addWidget(lbborder2)
 
         self.setLayout(vbox)
         self.setWindowTitle('Select window')
@@ -63,6 +63,7 @@ class WindowSelect(QWidget):
         time.sleep(1)
         CaptureData.capturedata = apptop.capture_as_image()
         apptop.minimize()
+        self.btnList = []
         self.close()
         # try:
         #
