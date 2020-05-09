@@ -1,7 +1,7 @@
 from threading import *
 from socket import *
 from PyQt5.QtCore import Qt, pyqtSignal, QObject
-import pickle
+import pickle, json
 
 class Signal(QObject):
     conn_signal = pyqtSignal()
@@ -71,7 +71,7 @@ class ServerSocket:
     def receive(self, addr, client):
         while True:
             try:
-                recv = client.recv(1024)
+                recv = client.recv(4096)
             except Exception as e:
                 print('Recv() Error :', e)
                 break
@@ -84,9 +84,10 @@ class ServerSocket:
         self.removeClient(addr, client)
 
     def send(self, msg):
+        dumpfile = pickle.dumps(msg)
         try:
             for c in self.clients:
-                c.send(msg.encode())
+                c.send(dumpfile)
         except Exception as e:
             print('Send() Error : ', e)
 

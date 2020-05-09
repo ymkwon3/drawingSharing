@@ -1,5 +1,5 @@
-import socket, pickle
-
+import socket, pickle, json, time
+from PIL import Image
 
 HOST = '175.215.49.230'
 PORT = 9999
@@ -26,9 +26,11 @@ while True:
     # datadic = pickle.loads(data)
     # print('Received from the server :', repr(datadic))
 
-    data = client_socket.recv(1024)
+    data = client_socket.recv(4096)
+    dumpfile = pickle.loads(data)
+    typetest = dumpfile["file"]
+    print('Received from the server :', typetest, type(typetest))
 
-    print('Received from the server :', repr(data.decode()))
 
 
 client_socket.close()

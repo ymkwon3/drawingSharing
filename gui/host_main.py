@@ -1,4 +1,4 @@
-import socket, sys, io, pickle
+import sys
 from _thread import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -7,6 +7,7 @@ from datafile import CaptureData
 from threading import Thread
 from host_windowSelect import WindowSelect
 import host_server
+import base64
 
 
 class HostMain(QWidget):
@@ -64,21 +65,24 @@ class HostMain(QWidget):
         if not self.s.bListen:
             self.sendmsg.clear()
             return
-        senddata = CaptureData.capturedata
-        # senddata = {"file":CaptureData.capturedata, "test":'testdatamm'}
-        print("호스트113", "gi")
-
-        ####
         CaptureData.capturedata.save("appimg.png")
         pixmap = QPixmap("appimg.png")
+        with open("appimg.png", "rb") as imageFile:
+            sendimage = base64.b64encode(imageFile.read())
+
+        # sendimage = CaptureData.capturedata
+        senddata = {"file":sendimage, "test":'testdatamm'}
+        ####
         if pixmap.size().width() > pixmap.size().height():
             pixmap = pixmap.scaledToWidth(1600)
         else:
             pixmap = pixmap.scaledToHeight(900)
         self.imgscreen.setPixmap(pixmap)
         ####
-
-        self.s.send(str(senddata))
+        try:
+            self.s.send(senddata)
+        except Exception as e:
+            print("여기좀봐줘요", e)
 
     def updateClient(self):
         self.guest.clearContents()
