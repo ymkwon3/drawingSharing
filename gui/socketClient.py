@@ -29,7 +29,8 @@ while True:
     data = client_socket.recv(4096)
     dumpfile = pickle.loads(data)
     typetest = dumpfile["file"]
-    print('Received from the server :', typetest, type(typetest))
+    
+    print('Received from the server :', type(testasd))
 
 
 

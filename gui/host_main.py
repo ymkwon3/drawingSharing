@@ -1,4 +1,6 @@
 import sys
+import cv2
+import numpy as np
 from _thread import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -66,21 +68,29 @@ class HostMain(QWidget):
             self.sendmsg.clear()
             return
         CaptureData.capturedata.save("appimg.png")
-        pixmap = QPixmap("appimg.png")
-        with open("appimg.png", "rb") as imageFile:
-            sendimage = base64.b64encode(imageFile.read())
+        img = cv2.imread("appimg.png")
 
-        # sendimage = CaptureData.capturedata
-        senddata = {"file":sendimage, "test":'testdatamm'}
+
+        pixmap = QPixmap("appimg.png")
+        # with open("appimg.png", "rb") as imageFile:
+        #     sendimage = base64.b64encode(imageFile.read())
+
+        sendimage = CaptureData.capturedata
+        print(type(sendimage))
+        senddata = {"file":str(sendimage), "test":'testdatamm'}
         ####
         if pixmap.size().width() > pixmap.size().height():
+            reimg = cv2.resize(img, dsize=(0, 0), fx=0.7, fy=0.7, interpolation=cv2.INTER_LINEAR)
             pixmap = pixmap.scaledToWidth(1600)
         else:
+            reimg = cv2.resize(img, dsize=(0, 0), fx=1.0, fy=1.0, interpolation=cv2.INTER_LINEAR)
             pixmap = pixmap.scaledToHeight(900)
+        cv2.imshow("appimg.png", reimg)
         self.imgscreen.setPixmap(pixmap)
         ####
         try:
             self.s.send(senddata)
+            print(senddata)
         except Exception as e:
             print("여기좀봐줘요", e)
 
