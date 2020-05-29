@@ -71,7 +71,7 @@ class ServerSocket:
     def receive(self, addr, client):
         while True:
             try:
-                recv = client.recv(4096)
+                recv = client.recv(8182)
             except Exception as e:
                 print('Recv() Error :', e)
                 break

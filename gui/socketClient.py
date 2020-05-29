@@ -25,12 +25,21 @@ while True:
     # data = client_socket.recv(1024)
     # datadic = pickle.loads(data)
     # print('Received from the server :', repr(datadic))
+    data = b""
+    while True:
+        packet = client_socket.recv(4096)
+        if not packet: break
+        data += packet
+        print(packet)
 
-    data = client_socket.recv(4096)
-    dumpfile = pickle.loads(data)
-    typetest = dumpfile["file"]
+    data_arr = pickle.loads(data)
+    print(data_arr)
+
+    # data = client_socket.recv(8182)
+    # dumpfile = pickle.loads(data)
+    # typetest = dumpfile["file"]
     
-    print('Received from the server :', type(testasd))
+    # print('Received from the server :', type(typetest))
 
 
 

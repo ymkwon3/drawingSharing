@@ -8,14 +8,14 @@ from PyQt5.QtCore import *
 from datafile import CaptureData
 from threading import Thread
 from host_windowSelect import WindowSelect
-import host_server
+import host_socket
 import base64
 
 
 class HostMain(QWidget):
     def __init__(self):
         super().__init__()
-        self.s = host_server.ServerSocket(self)
+        self.s = host_socket.ServerSocket(self)
         self.s.start() # 서버실행
         self.initUI()
 
@@ -72,10 +72,10 @@ class HostMain(QWidget):
 
 
         pixmap = QPixmap("appimg.png")
-        # with open("appimg.png", "rb") as imageFile:
-        #     sendimage = base64.b64encode(imageFile.read())
+        with open("appimg.png", "rb") as imageFile:
+            sendimage = base64.b64encode(imageFile.read())
 
-        sendimage = CaptureData.capturedata
+        # sendimage = CaptureData.capturedata
         print(type(sendimage))
         senddata = {"file":str(sendimage), "test":'testdatamm'}
         ####
@@ -90,7 +90,6 @@ class HostMain(QWidget):
         ####
         try:
             self.s.send(senddata)
-            print(senddata)
         except Exception as e:
             print("여기좀봐줘요", e)
 
