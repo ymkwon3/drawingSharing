@@ -20,78 +20,53 @@ class HostMain(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.imgscreen = QLabel(self)
-        self.imgscreen.setStyleSheet("background-color: green")
-        self.imgscreen.setText("ready")
-        self.imgscreen.resize(1600, 900)
-
-        lbox = QVBoxLayout()
-        lbox.addWidget(self.imgscreen, alignment=Qt.AlignCenter)
-
         btn_selectwindow = QPushButton('Select Window', self)
         btn_selectwindow.clicked.connect(self.selectWindow)
 
         btn_sharing = QPushButton('Sharing', self)
         btn_sharing.clicked.connect(self.sendData)
 
+        btn_showing = QPushButton('Showing', self)
+        btn_showing.clicked.connect(self.showScreen)
+
         btnL = QHBoxLayout()
         btnL.addWidget(btn_selectwindow)
         btnL.addWidget(btn_sharing)
+        btnL.addWidget(btn_showing)
 
         self.guest = QTableWidget()
         self.guest.setRowCount(10)
         self.guest.setColumnCount(1)
         self.guest.setHorizontalHeaderItem(0, QTableWidgetItem('ip'))
-        # self.userlist = QLabel(self)
-        # self.userlist.setText("hello")
-        # self.userlist.setStyleSheet("background-color: yellow")
-        # self.userlist.resize(500, 500)
-
 
         rbox = QVBoxLayout()
         rbox.addLayout(btnL)
         rbox.addWidget(self.guest)
 
         mainlayout = QHBoxLayout()
-        mainlayout.addLayout(lbox)
+        #mainlayout.addLayout(lbox)
         mainlayout.addLayout(rbox)
-        mainlayout.setStretchFactor(lbox, 4)
+        # mainlayout.setStretchFactor(lbox, 4)
         mainlayout.setStretchFactor(rbox, 1)
 
         self.setLayout(mainlayout)
 
         self.setWindowTitle('show image')
-        self.showMaximized()
+        self.show()
 
     def sendData(self):
-        if not self.s.bListen:
-            self.sendmsg.clear()
-            return
-        CaptureData.capturedata.save("appimg.png")
-        img = cv2.imread("appimg.png")
-
-
-        pixmap = QPixmap("appimg.png")
-        with open("appimg.png", "rb") as imageFile:
-            sendimage = base64.b64encode(imageFile.read())
-
-        # sendimage = CaptureData.capturedata
-        print(type(sendimage))
-        senddata = {"file":str(sendimage), "test":'testdatamm'}
-        ####
-        if pixmap.size().width() > pixmap.size().height():
-            reimg = cv2.resize(img, dsize=(0, 0), fx=0.7, fy=0.7, interpolation=cv2.INTER_LINEAR)
-            pixmap = pixmap.scaledToWidth(1600)
-        else:
-            reimg = cv2.resize(img, dsize=(0, 0), fx=1.0, fy=1.0, interpolation=cv2.INTER_LINEAR)
-            pixmap = pixmap.scaledToHeight(900)
-        cv2.imshow("appimg.png", reimg)
-        self.imgscreen.setPixmap(pixmap)
-        ####
+        # if not self.s.bListen:
+        #    self.sendmsg.clear()
+        #    return
         try:
+            with open("appimg.png", "rb") as imageFile:
+                sendimage = base64.b64encode(imageFile.read())
+            senddata = {"file": sendimage, "test": 'testdatamm'}
+            # sendimage = CaptureData.capturedata
+            print(type(sendimage))
             self.s.send(senddata)
         except Exception as e:
-            print("여기좀봐줘요", e)
+            print("ㅇㅇㅇ", e)
 
     def updateClient(self):
         self.guest.clearContents()
@@ -105,7 +80,17 @@ class HostMain(QWidget):
 
     def selectWindow(self):
         self.ex = WindowSelect()
-
+    def showScreen(self):
+        try:
+            img = cv2.imread("appimg.png")
+            pixmap = QPixmap("appimg.png")
+            if pixmap.size().width() > pixmap.size().height():
+                reimg = cv2.resize(img, dsize=(0, 0), fx=0.7, fy=0.7, interpolation=cv2.INTER_LINEAR)
+            else:
+                reimg = cv2.resize(img, dsize=(0, 0), fx=1.0, fy=1.0, interpolation=cv2.INTER_LINEAR)
+            cv2.imshow("appimg.png", reimg)
+        except Exception as e:
+            print("왜이리 에러가 뜨는 것이냐 ", e)
 # 쓰레드에서 실행되는 코드입니다.
 
 # 클라이언트가 접속하면 accept 함수에서 새로운 소켓을 리턴합니다.

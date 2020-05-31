@@ -62,7 +62,7 @@ class WindowSelect(QWidget):
         app = Application().connect(process=self.app_dict[name])
         apptop = app.top_window().set_focus()
         time.sleep(0.5)
-        CaptureData.capturedata = apptop.capture_as_image()
+        apptop.capture_as_image().save("appimg.png")
         apptop.minimize()
         self.btnList = []
         self.close()

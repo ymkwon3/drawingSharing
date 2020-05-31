@@ -1,7 +1,7 @@
 import socket, pickle, json, time
 from PIL import Image
 
-HOST = '175.215.49.230'
+HOST = '203.255.3.229'
 PORT = 9999
 
 client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)

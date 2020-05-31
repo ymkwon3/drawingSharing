@@ -41,7 +41,8 @@ class Enter(QWidget):
         os.system("python host_main.py")
 
     def enterClient(self):
-        pass
+        self.close()
+        os.system("python client_inputIP.py")
 
 
 if __name__ == '__main__':

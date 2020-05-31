@@ -1,6 +1,6 @@
-import sys
+import sys, os
 from PyQt5.QtWidgets import QApplication, QDesktopWidget, QWidget, QLabel, QLineEdit, QPushButton
-
+from datafile import CaptureData
 
 class MyApp(QWidget):
     def __init__(self):
@@ -34,7 +34,10 @@ class MyApp(QWidget):
         self.move(qr.topLeft())
 
     def enter(self):
+        CaptureData.ip = self.qle.text()
         print(self.qle.text())
+        self.close()
+        os.system("python client_main.py")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -13,7 +13,7 @@ class ServerSocket:
         self.bListen = False
         self.clients = []
         self.ip = []
-        self.ip.append(['172.30.1.54',9999])
+        self.ip.append(['203.255.3.229',9999])
         self.threads = []
 
         self.conn = Signal()
@@ -26,7 +26,7 @@ class ServerSocket:
         self.stop()
 
     def start(self):
-        ip = '172.30.1.54'
+        ip = '203.255.3.229'
         port = 9999
         self.server = socket(AF_INET, SOCK_STREAM)
 
@@ -69,18 +69,14 @@ class ServerSocket:
         self.server.close()
 
     def receive(self, addr, client):
+        data = b""
         while True:
-            try:
-                recv = client.recv(8182)
-            except Exception as e:
-                print('Recv() Error :', e)
-                break
-            else:
-                msg = str(recv, encoding='utf-8')
-                if msg:
-                    self.send(msg)
-                    self.recv.recv_signal.emit(msg)
-                    print('[RECV]:', addr[0], msg)
+            packet = client.recv(4096)
+            if not packet: break
+            data += packet
+            print(packet)
+        data_arr = pickle.loads(data)
+        print(data_arr)
         self.removeClient(addr, client)
 
     def send(self, msg):

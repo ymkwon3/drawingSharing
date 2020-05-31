@@ -1,12 +1,11 @@
 from threading import *
 from socket import *
 from PyQt5.QtCore import Qt, pyqtSignal, QObject
+import pickle
 
 
 class Signal(QObject):
     recv_signal = pyqtSignal(str)
-    disconn_signal = pyqtSignal()
-
 
 class ClientSocket:
 
@@ -14,10 +13,7 @@ class ClientSocket:
         self.parent = parent
 
         self.recv = Signal()
-        self.recv.recv_signal.connect(self.parent.updateMsg)
-        self.disconn = Signal()
-        self.disconn.disconn_signal.connect(self.parent.updateDisconnect)
-
+        self.recv.recv_signal.connect(self.parent.updateClient)
         self.bConnect = False
 
     def __del__(self):
@@ -45,28 +41,23 @@ class ClientSocket:
             self.client.close()
             del (self.client)
             print('Client Stop')
-            self.disconn.disconn_signal.emit()
 
     def receive(self, client):
+        data = b""
         while self.bConnect:
-            try:
-                recv = client.recv(4096)
-            except Exception as e:
-                print('Recv() Error :', e)
-                break
-            else:
-                msg = str(recv, encoding='utf-8')
-                if msg:
-                    self.recv.recv_signal.emit(msg)
-                    print('[RECV]:', msg)
-
-        self.stop()
+            packet = client.recv(4096)
+            if not packet: break
+            data += packet
+            print(packet)
+        data_arr = pickle.loads(data)
+        print(data_arr)
 
     def send(self, msg):
         if not self.bConnect:
             return
 
         try:
-            self.client.send(msg.encode())
+            dumpfile = pickle.dumps(msg)
+            self.client.send(dumpfile)
         except Exception as e:
             print('Send() Error : ', e)
