@@ -83,7 +83,7 @@ class ServerSocket:
         dumpfile = pickle.dumps(msg)
         try:
             for c in self.clients:
-                c.send(dumpfile)
+                c.send(msg)
         except Exception as e:
             print('Send() Error : ', e)
 

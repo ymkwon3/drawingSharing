@@ -59,12 +59,19 @@ class HostMain(QWidget):
         #    self.sendmsg.clear()
         #    return
         try:
-            with open("appimg.png", "rb") as imageFile:
-                sendimage = base64.b64encode(imageFile.read())
-            senddata = {"file": sendimage, "test": 'testdatamm'}
+            #with open("appimg.png", "rb") as imageFile:
+            #    sendimage = imageFile.read(4096)
+            f = open("appimg.png", "rb")
+            sendimage = f.read(1024)
+            while sendimage:
+                self.s.send(sendimage)
+                sendimage = f.read(1024)
+            f.close()
+
+            #senddata = {"file": sendimage, "test": 'testdatamm'}
             # sendimage = CaptureData.capturedata
-            print(type(sendimage))
-            self.s.send(senddata)
+            #print(type(sendimage))
+            #self.s.send(sendimage)
         except Exception as e:
             print("ㅇㅇㅇ", e)
 

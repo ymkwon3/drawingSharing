@@ -2,6 +2,7 @@ from threading import *
 from socket import *
 from PyQt5.QtCore import Qt, pyqtSignal, QObject
 import pickle
+import base64
 
 
 class Signal(QObject):
@@ -43,19 +44,38 @@ class ClientSocket:
             print('Client Stop')
 
     def receive(self, client):
-        data = b""
-        while self.bConnect:
+        # data = b""
+        # while self.bConnect:
+        #     packet = client.recv(4096)
+        #     if not packet: break
+        #     data += packet
+        #     print(packet)
+        try:
+            temp = open("app224.png", "wb")
             packet = client.recv(4096)
-            if not packet: break
-            data += packet
-            print(packet)
-        data_arr = pickle.loads(data)
-        print(data_arr)
+            while packet:
+                print("Receiveing...")
+                temp.write(packet)
+                packet = client.recv(4096)
+            temp.close()
+            #print("1111111111111111111")
+            # data_arr = pickle.loads(packet)
+            # encoded = base64.b64encode(packet).decode()
+            # encoded.save("app.png")
+            #print(type(packet))
+            #temp = open("app223.png", "wb")
+            #print("2222222222222222222222")
+            #temp.write(packet)
+            #print("33333333333333333333333")
+            #temp.close()
+        except Exception as e:
+            print("error by receive: ", e)
+
+
 
     def send(self, msg):
         if not self.bConnect:
             return
-
         try:
             dumpfile = pickle.dumps(msg)
             self.client.send(dumpfile)

@@ -1,4 +1,4 @@
-import socket, pickle, json, time
+import socket, pickle, json, time, base64
 from PIL import Image
 
 HOST = '203.255.3.229'
@@ -26,22 +26,29 @@ while True:
     # datadic = pickle.loads(data)
     # print('Received from the server :', repr(datadic))
     data = b""
-    while True:
-        packet = client_socket.recv(4096)
-        if not packet: break
-        data += packet
-        print(packet)
-
-    data_arr = pickle.loads(data)
-    print(data_arr)
-
+    packet = client_socket.recv(4096)
+    # if not packet:
+    #     try:
+    #         print(data)
+    #         data_arr = pickle.loads(data)
+    #         encoded = base64.b64encode(data_arr).decode()
+    #         encoded.save("app.png")
+    #         print(data_arr)
+    #
+    #     except Exception as e:
+    #         print('Connect Error : ', e)
+    #     break
+    # data += packet
+    print(packet)
+    # while True:
+    #     # if not packet: break
+    #     # data += packet
+    #     print(packet)
     # data = client_socket.recv(8182)
     # dumpfile = pickle.loads(data)
     # typetest = dumpfile["file"]
     
     # print('Received from the server :', type(typetest))
-
-
 
 client_socket.close()
 
